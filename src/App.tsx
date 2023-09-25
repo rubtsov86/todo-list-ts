@@ -8,24 +8,50 @@ import { TodoList } from "./components/TodoList.tsx/TodoList";
 
 interface IState {
   tasks: ITask[];
-  showModal: boolean;
+  showModal: string;
 }
 
 class App extends React.Component<{}, IState> {
   state: IState = {
     tasks: [],
-    showModal: false,
+    showModal: "",
   };
 
-  onShowModal = () => {
-    this.setState({ showModal: true });
+  onShowModal = (type: string) => {
+    this.setState({ showModal: type });
   };
 
   onSubmit = (newTask: ITask) => {
-    // const newTask = { title, status };
+    this.setState((prevState) => {
+      return { tasks: [...prevState.tasks, newTask], showModal: "" };
+    });
+  };
+
+  onChangeStatus = (id: string) => {
+    const updatedTasks = this.state.tasks.map((task) =>
+      task.id === id
+        ? { ...task, status: this.toggleStatus(task.status) }
+        : task
+    ) as ITask[];
+
+    console.log(updatedTasks);
 
     this.setState((prevState) => {
-      return { tasks: [...prevState.tasks, newTask] };
+      return {
+        tasks: updatedTasks,
+      };
+    });
+  };
+
+  toggleStatus = (status: string) => {
+    return status === "incomplete" ? "complete" : "incomplete";
+  };
+
+  onDelete = (taskId: string) => {
+    this.setState((prevState) => {
+      return {
+        tasks: prevState.tasks.filter(({ id }) => id !== taskId),
+      };
     });
   };
 
@@ -33,6 +59,7 @@ class App extends React.Component<{}, IState> {
     return (
       <div className="App">
         <h1>todo list</h1>
+
         <AddButton onClick={this.onShowModal} />
         <Filter />
         {this.state.showModal && (
@@ -40,7 +67,13 @@ class App extends React.Component<{}, IState> {
             <Form onSubmit={this.onSubmit} />
           </Modal>
         )}
-        <TodoList tasks={this.state.tasks} />
+
+        <TodoList
+          tasks={this.state.tasks}
+          onChange={this.onChangeStatus}
+          onDelete={this.onDelete}
+          onShowModal={this.onShowModal}
+        />
       </div>
     );
   }

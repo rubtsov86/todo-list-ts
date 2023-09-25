@@ -1,5 +1,6 @@
 import React from "react";
 import { Formik, Field } from "formik";
+import { nanoid } from "nanoid";
 import { ITask } from "../../interfaces/ITask";
 
 interface IProps {
@@ -11,9 +12,19 @@ export class Form extends React.Component<IProps> {
     return (
       <div>
         <Formik<ITask>
-          initialValues={{ title: "", status: "incomplete" }}
+          initialValues={{
+            title: "",
+            status: "incomplete",
+            id: "",
+            date: new Date(),
+          }}
           onSubmit={({ title, status }: ITask, actions) => {
-            this.props.onSubmit({ title, status });
+            this.props.onSubmit({
+              title,
+              status,
+              id: nanoid(),
+              date: new Date(),
+            });
 
             actions.resetForm();
           }}
