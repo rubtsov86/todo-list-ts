@@ -4,22 +4,28 @@ interface IState {
   status: string;
 }
 
-export class Filter extends React.Component<{}, IState> {
-  state = {
-    status: "All",
-  };
+interface IProps {
+  onChangeFilter: (filter: string) => void;
+  filter: string;
+}
+
+export class Filter extends React.Component<IProps, IState> {
+  // state = {
+  //   status: "All",
+  // };
 
   onChange = (e: React.FormEvent<HTMLSelectElement>) => {
     const selectRef = e.target as HTMLSelectElement;
-    this.setState({ status: selectRef.value });
+    this.props.onChangeFilter(selectRef.value);
+    // this.setState({ status: selectRef.value });
   };
 
   render() {
     return (
-      <select name="status" value={this.state.status} onChange={this.onChange}>
-        <option value="All">All</option>
-        <option value="Incomplete">Incomplete</option>
-        <option value="Complete">Complete</option>
+      <select name="status" value={this.props.filter} onChange={this.onChange}>
+        <option value="all">All</option>
+        <option value="incomplete">Incomplete</option>
+        <option value="complete">Complete</option>
       </select>
     );
   }

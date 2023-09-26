@@ -6,7 +6,7 @@ interface IProps {
   tasks: ITask[];
   onChange: (id: string) => void;
   onDelete: (taskId: string) => void;
-  onShowModal: (type: string) => void;
+  onShowModal: (type: string, id: string) => void;
 }
 
 export const TodoList: React.FC<IProps> = ({

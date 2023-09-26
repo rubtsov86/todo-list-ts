@@ -7,7 +7,7 @@ interface IProps {
   task: ITask;
   onChange: (id: string) => void;
   onDelete: (taskId: string) => void;
-  onShowModal: (type: string) => void;
+  onShowModal: (type: string, id: string) => void;
 }
 
 export const TodoListItem: React.FC<IProps> = ({
@@ -28,7 +28,7 @@ export const TodoListItem: React.FC<IProps> = ({
       {title}
       {format(date, "hh a MM/dd/yyyy")}
 
-      <button type="button" onClick={() => onShowModal("edit")}>
+      <button type="button" onClick={() => onShowModal("edit", id)}>
         <AiFillEdit />
       </button>
 

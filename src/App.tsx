@@ -9,22 +9,30 @@ import { TodoList } from "./components/TodoList.tsx/TodoList";
 interface IState {
   tasks: ITask[];
   showModal: string;
+  filter: string;
+  updateTaskId: string;
 }
 
+const initialState: IState = {
+  tasks: [],
+  showModal: "",
+  filter: "all",
+  updateTaskId: "",
+};
+
 class App extends React.Component<{}, IState> {
-  state: IState = {
-    tasks: [],
-    showModal: "",
+  state = initialState;
+
+  onShowModal = (type: string, id = "") => {
+    this.setState({ showModal: type, updateTaskId: id });
   };
 
-  onShowModal = (type: string) => {
-    this.setState({ showModal: type });
-  };
-
-  onSubmit = (newTask: ITask) => {
-    this.setState((prevState) => {
-      return { tasks: [...prevState.tasks, newTask], showModal: "" };
-    });
+  onSubmit = (newTask: ITask, type: string) => {
+    if (type === "add") {
+      this.setState((prevState) => {
+        return { tasks: [...prevState.tasks, newTask], showModal: "" };
+      });
+    }
   };
 
   onChangeStatus = (id: string) => {
@@ -33,8 +41,6 @@ class App extends React.Component<{}, IState> {
         ? { ...task, status: this.toggleStatus(task.status) }
         : task
     ) as ITask[];
-
-    console.log(updatedTasks);
 
     this.setState((prevState) => {
       return {
@@ -55,21 +61,53 @@ class App extends React.Component<{}, IState> {
     });
   };
 
+  onChangeFilter = (filter: string) => {
+    this.setState({ filter });
+  };
+
+  onFilteredTasks = () => {
+    if (this.state.filter === "all") {
+      return this.state.tasks;
+    }
+
+    if (this.state.filter === "complete") {
+      return this.state.tasks.filter((task) => task.status === "complete");
+    } else {
+      return this.state.tasks.filter((task) => task.status === "incomplete");
+    }
+  };
+
+  onFindTaskToUpdate = (taskId: string): ITask => {
+    const task = this.state.tasks.find(({ id }) => taskId === id);
+    return task
+      ? task
+      : { title: "", id: "", status: "incomplete", date: new Date() };
+  };
+
   render() {
     return (
       <div className="App">
         <h1>todo list</h1>
 
         <AddButton onClick={this.onShowModal} />
-        <Filter />
+        <Filter
+          onChangeFilter={this.onChangeFilter}
+          filter={this.state.filter}
+        />
         {this.state.showModal && (
           <Modal>
-            <Form onSubmit={this.onSubmit} />
+            <Form
+              onSubmit={this.onSubmit}
+              type={this.state.showModal}
+              onFindTaskToUpdate={() =>
+                this.onFindTaskToUpdate(this.state.updateTaskId)
+              }
+            />
           </Modal>
         )}
 
         <TodoList
-          tasks={this.state.tasks}
+          tasks={this.onFilteredTasks()}
           onChange={this.onChangeStatus}
           onDelete={this.onDelete}
           onShowModal={this.onShowModal}

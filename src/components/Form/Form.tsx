@@ -4,27 +4,44 @@ import { nanoid } from "nanoid";
 import { ITask } from "../../interfaces/ITask";
 
 interface IProps {
-  onSubmit: (newTask: ITask) => void;
+  onSubmit: (newTask: ITask, type: string) => void;
+  type: string;
+  onFindTaskToUpdate: () => ITask;
 }
 
 export class Form extends React.Component<IProps> {
+  onSetType = (type: string) => {
+    return {
+      title: type === "add" ? "Add TODO" : "Update TODO",
+      taskTitle: type === "add" ? "" : "Update TODO",
+      buttonName: type === "add" ? "Add task" : "Update task",
+    };
+  };
+
   render() {
+    const task = this.props.onFindTaskToUpdate();
+    const { date } = task;
+
     return (
       <div>
+        <h2>{this.onSetType(this.props.type).title}</h2>
         <Formik<ITask>
           initialValues={{
-            title: "",
-            status: "incomplete",
-            id: "",
-            date: new Date(),
+            title: `${task.title}`,
+            status: `${task.status}`,
+            id: `${task.id}`,
+            date: date,
           }}
           onSubmit={({ title, status }: ITask, actions) => {
-            this.props.onSubmit({
-              title,
-              status,
-              id: nanoid(),
-              date: new Date(),
-            });
+            this.props.onSubmit(
+              {
+                title,
+                status,
+                id: nanoid(),
+                date: new Date(),
+              },
+              this.props.type
+            );
 
             actions.resetForm();
           }}
@@ -55,7 +72,7 @@ export class Form extends React.Component<IProps> {
               </Field>
 
               <button type="submit" disabled={isSubmitting}>
-                Submit
+                {this.onSetType(this.props.type).buttonName}
               </button>
             </form>
           )}
