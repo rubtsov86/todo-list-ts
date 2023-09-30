@@ -84,6 +84,10 @@ class App extends React.Component<{}, IState> {
       : { title: "", id: "", status: "incomplete", date: new Date() };
   };
 
+  onCloseModal = () => {
+    this.setState({ showModal: "" });
+  };
+
   render() {
     return (
       <div className="App">
@@ -95,9 +99,10 @@ class App extends React.Component<{}, IState> {
           filter={this.state.filter}
         />
         {this.state.showModal && (
-          <Modal>
+          <Modal onClose={this.onCloseModal}>
             <Form
               onSubmit={this.onSubmit}
+              onClose={this.onCloseModal}
               type={this.state.showModal}
               onFindTaskToUpdate={() =>
                 this.onFindTaskToUpdate(this.state.updateTaskId)

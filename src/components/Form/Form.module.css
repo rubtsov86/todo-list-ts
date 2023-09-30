@@ -1,0 +1,54 @@
+/* .containerForm {
+    width: 100%;
+} */
+
+.titleForm {
+  margin-top: 0;
+  margin-bottom: 2rem;
+  color: var(--black-1);
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.labelForm {
+  display: block;
+  color: var(--black-1);
+  font-size: 1.6rem;
+}
+
+.inputForm {
+  background-color: var(--white);
+  display: block;
+  border: none;
+  font-size: 1.6rem;
+  margin-bottom: 2rem;
+  margin-top: 0.5rem;
+  padding: 1rem;
+
+  width: 100%;
+}
+
+.buttonForm {
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 1.6rem;
+  font-weight: 500;
+  height: auto;
+  overflow: hidden;
+  padding: 0.8rem 2rem;
+  text-decoration: none;
+  text-transform: capitalize;
+}
+
+.primaryButton {
+    background-color: var(--primaryPurple);
+    color: var(--white);
+}
+
+.secondaryButton {
+    background-color: var(--bg-3);
+        color: var(--black-1);
+        margin-left: 20px;
+}
