@@ -1,4 +1,5 @@
 import React from "react";
+import css from "./Filter.module.css";
 
 interface IState {
   status: string;
@@ -22,7 +23,12 @@ export class Filter extends React.Component<IProps, IState> {
 
   render() {
     return (
-      <select name="status" value={this.props.filter} onChange={this.onChange}>
+      <select
+        name="status"
+        value={this.props.filter}
+        onChange={this.onChange}
+        className={css.select}
+      >
         <option value="all">All</option>
         <option value="incomplete">Incomplete</option>
         <option value="complete">Complete</option>

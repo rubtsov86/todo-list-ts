@@ -1,0 +1,58 @@
+.listItem {
+    align-items: center;
+        background: var(--white);
+        border-radius: 4px;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1.5rem;
+        padding: 1rem;
+}
+
+.checkbox {
+    width: 35px;
+    height: 35px;
+}
+
+.checkboxContainer {
+    display: flex;
+    align-items: center;
+}
+
+.itemTitle {
+color: var(--black-2);
+    font-size: 1.4rem;
+    font-weight: 500;
+    word-break: break-all;
+}
+
+.itemDate {
+    color: var(--black-2);
+        display: block;
+        font-size: 1.2rem;
+        font-weight: 300;
+        margin-top: -0.2rem;
+}
+
+.titleContainer {
+    margin-left: 10px;
+}
+
+.Icon {
+    width: 25px;
+    height: 25px;
+}
+
+.Button {
+    border: 0;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.Button:hover {
+    background-color: var(--bg-3);
+}
+
+.ButtonMargin {
+    margin-left: 10px;
+}

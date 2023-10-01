@@ -1,0 +1,22 @@
+.appContainer {
+width: 1000px;
+padding-left: 10px;
+padding-right: 10px;
+margin: 0 auto;
+}
+
+.title {
+    color: var(--black-1);
+        display: inline-block;
+        font-size: 4rem;
+        font-weight: 700;
+        margin: 2rem auto 1.5rem;
+        text-align: center;
+        text-transform: uppercase;
+        width: 100%;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+}

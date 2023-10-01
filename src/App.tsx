@@ -5,6 +5,7 @@ import { Modal } from "./components/Modal/Modal";
 import { Form } from "./components/Form/Form";
 import { ITask } from "./interfaces/ITask";
 import { TodoList } from "./components/TodoList.tsx/TodoList";
+import css from "./App.module.css";
 
 interface IState {
   tasks: ITask[];
@@ -23,6 +24,27 @@ const initialState: IState = {
 class App extends React.Component<{}, IState> {
   state = initialState;
 
+  componentDidMount(): void {
+    const tasks = localStorage.getItem("tasks");
+
+    if (tasks) {
+      const parsedTasks = JSON.parse(tasks);
+      this.setState((prevState) => {
+        return { ...prevState, tasks: [...parsedTasks] };
+      });
+    }
+  }
+
+  componentDidUpdate(
+    prevProps: Readonly<{}>,
+    prevState: Readonly<IState>,
+    snapshot?: any
+  ): void {
+    if (prevState.tasks.length !== this.state.tasks.length) {
+      window.localStorage.setItem("tasks", JSON.stringify(this.state.tasks));
+    }
+  }
+
   onShowModal = (type: string, id = "") => {
     this.setState({ showModal: type, updateTaskId: id });
   };
@@ -31,6 +53,17 @@ class App extends React.Component<{}, IState> {
     if (type === "add") {
       this.setState((prevState) => {
         return { tasks: [...prevState.tasks, newTask], showModal: "" };
+      });
+    }
+
+    if (type === "edit") {
+      this.setState((prevState) => {
+        return {
+          tasks: prevState.tasks.map((task) =>
+            task.id === this.state.updateTaskId ? newTask : task
+          ),
+          showModal: "",
+        };
       });
     }
   };
@@ -90,14 +123,16 @@ class App extends React.Component<{}, IState> {
 
   render() {
     return (
-      <div className="App">
-        <h1>todo list</h1>
+      <div className={css.appContainer}>
+        <h1 className={css.title}>todo list</h1>
+        <div className={css.container}>
+          <AddButton onClick={this.onShowModal} />
+          <Filter
+            onChangeFilter={this.onChangeFilter}
+            filter={this.state.filter}
+          />
+        </div>
 
-        <AddButton onClick={this.onShowModal} />
-        <Filter
-          onChangeFilter={this.onChangeFilter}
-          filter={this.state.filter}
-        />
         {this.state.showModal && (
           <Modal onClose={this.onCloseModal}>
             <Form
