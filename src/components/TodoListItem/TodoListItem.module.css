@@ -56,3 +56,37 @@ color: var(--black-2);
 .ButtonMargin {
     margin-left: 10px;
 }
+
+.checkbox__icon {
+    display: flex;
+        align-items: center;
+        justify-items: center;
+    
+        margin-right: 5px;
+        width: 15px;
+        height: 14px;
+        border: 2px solid #212121;
+        border-radius: 2px;
+}
+
+/* .checkbox:checked {
+    background-color: blue;
+        border: 2px solid black;
+} */
+
+.visuallyHidden {
+    position: absolute;
+    clip: rect(0 0 0 0);
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+}
+
+.checkbox {
+    width: 30px;
+   height: 30px;
+   background-color: rgb(222, 223, 225);
+   cursor: pointer;
+   border: 0;
+transition: background-color .3s ease;
+}

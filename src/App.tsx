@@ -29,8 +29,9 @@ class App extends React.Component<{}, IState> {
 
     if (tasks) {
       const parsedTasks = JSON.parse(tasks);
+
       this.setState((prevState) => {
-        return { ...prevState, tasks: [...parsedTasks] };
+        return { ...prevState, tasks: parsedTasks };
       });
     }
   }
@@ -112,9 +113,7 @@ class App extends React.Component<{}, IState> {
 
   onFindTaskToUpdate = (taskId: string): ITask => {
     const task = this.state.tasks.find(({ id }) => taskId === id);
-    return task
-      ? task
-      : { title: "", id: "", status: "incomplete", date: new Date() };
+    return task ? task : { title: "", id: "", status: "incomplete", date: "" };
   };
 
   onCloseModal = () => {

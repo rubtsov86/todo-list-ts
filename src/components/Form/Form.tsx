@@ -23,6 +23,7 @@ export class Form extends React.Component<IProps> {
   render() {
     const task = this.props.onFindTaskToUpdate();
     const { date } = task;
+    const newDate = new Date();
 
     return (
       <div className={css.containerForm}>
@@ -42,7 +43,7 @@ export class Form extends React.Component<IProps> {
                 title,
                 status,
                 id: nanoid(),
-                date: new Date(),
+                date: newDate.toString(),
               },
               this.props.type
             );

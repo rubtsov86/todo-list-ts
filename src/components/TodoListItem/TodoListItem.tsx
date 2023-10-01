@@ -1,8 +1,9 @@
 import React from "react";
 import { ITask } from "../../interfaces/ITask";
-import { format, isValid } from "date-fns";
+import { format, isValid, parseISO } from "date-fns";
 import { AiFillEdit, AiOutlineDelete } from "react-icons/ai";
 import css from "./TodoListItem.module.css";
+import svg from "./checked.svg";
 
 interface IProps {
   task: ITask;
@@ -18,7 +19,11 @@ export const TodoListItem: React.FC<IProps> = ({
   onShowModal,
 }) => {
   const { title, status, id, date } = task;
-  console.log(typeof date);
+  const parsedDate = Date.parse(date);
+
+  console.log(new Date(parsedDate));
+
+  const newDate = new Date(parsedDate);
   return (
     <li className={css.listItem}>
       <div className={css.checkboxContainer}>
@@ -26,13 +31,27 @@ export const TodoListItem: React.FC<IProps> = ({
           type="checkbox"
           checked={status === "complete" ? true : false}
           onChange={() => onChange(id)}
-          className={css.checkbox}
+          className={`${css.checkbox__input} ${css.visuallyHidden}`}
         />
+        <button
+          style={{
+            backgroundColor: status === "complete" ? "#646ff0" : "#dedfe1",
+          }}
+          className={css.checkbox}
+          onClick={() => onChange(id)}
+        >
+          {status === "complete" && <img src={svg} />}
+        </button>
         <div className={css.titleContainer}>
-          <p className={css.itemTitle}>{title}</p>
-          <p className={css.itemDate}>
-            {isValid(date) && format(date, "hh a, MM/dd/yyyy")}
+          <p
+            style={{
+              textDecoration: status === "complete" ? "line-through" : "none",
+            }}
+            className={css.itemTitle}
+          >
+            {title}
           </p>
+          <p className={css.itemDate}>{format(newDate, "hh a, MM/dd/yyyy")}</p>
         </div>
       </div>
 
